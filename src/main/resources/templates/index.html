@@ -1,0 +1,101 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        let current = window.location.href;
+        if(!current.endsWith("/")){
+            window.location.assign(current + "/");
+        }
+
+
+
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Welcome to charSharing, I will be your guide!</title>
+    <!--<link rel="stylesheet" href="../static/styles.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script th:src="@{js/index.js}"></script>
+    <link rel="stylesheet" th:href="@{styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Admin-View</h1>
+
+    <!--Our real table-->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <Button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true">Löschen</span>
+            </Button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col"/>
+                        <th scope="col">Titel</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Bearbeitungsdatum</th>
+                        <th scope="col">Erstelldatum</th>
+                        <th scope="col">Archiviert</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="document: ${documentList}">
+                        <td class="checkbox"><input class="documentCheckbox checkbox" type="checkbox"
+                                                    th:name="${document.title}"></td>
+                        <td data-label="Titel"><a class="" th:href="${homeURL + document.title}" target="_blank">
+                            <span th:text="${document.title}"></span>
+                        </a></td>
+                        <td data-label="Autor"><span class="" th:text="${document.creator}"></span></td>
+                        <td data-label="Bearbeitungsdatum"><span class="" th:text="${{document.updatedAt}}"></span></td>
+                        <td data-label="Erstelldatum"><span class="" th:text="${{document.createdAt}}"></span></td>
+                        <td data-label="Archiviert">
+                            <input th:if="${document.archived}" type="checkbox" class="checkbox" disabled checked>
+                            <input th:unless="${document.archived}" type="checkbox" class="checkbox" disabled>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Dokument(e) löschen</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Sollen die ausgewählten Dokumente wirklich gelöscht werden?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button id="deleteButton" type="button" class="btn btn-danger" data-dismiss="modal">Löschen</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+            </div>
+
+        </div>
+</body>
+</html>
